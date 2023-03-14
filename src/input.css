@@ -1,3 +1,58 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+    body {
+        font-family: 'Readex Pro', sans-serif;
+        @apply
+        bg-gray-100 
+        flex flex-col absolute top-0 right-0 left-0 bottom-0 h-full w-full
+    }
+};
+
+@layer components {
+    .card {
+        @apply bg-white text-gray-700 w-72 min-h-[10rem] shadow-lg rounded-md overflow-hidden mr-5 mb-5
+    };
+
+    #header {
+        @apply
+        w-[80%] h-[100px] bg-red-600 grow-0 flex  p-4 mt-5 mx-auto
+        justify-between items-center
+    }
+
+    #countContainer {
+        @apply
+        flex bg-white rounded h-10 w-16
+            justify-between items-center py-2 px-3
+    }
+
+    #mainContainer {
+        @apply
+        mt-5 w-[80%] m-auto p-2 grow overflow-auto flex flex-row
+    }
+
+    #cardContainer {
+        @apply
+        w-[100%] flex justify-center items-center flex-wrap p-16
+    }
+
+    .card {
+        @apply bg-white text-gray-700 w-72 min-h-[10rem] shadow-lg rounded-md overflow-hidden mr-5 mb-5
+    };
+
+    .badgeContainer {
+        @apply flex items-center gap-2 flex-nowrap whitespace-nowrap
+    };
+
+    .badge {
+        @apply px-3 py-1 rounded-full text-xs bg-gray-100
+    };
+
+    .product-title {
+        @apply font-semibold text-2xl overflow-ellipsis overflow-hidden whitespace-nowrap
+    };
+
+
+}

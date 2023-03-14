@@ -1,5 +1,6 @@
 <!doctype html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,11 +9,121 @@
   <script src="https://unpkg.com/rxjs@^7/dist/bundles/rxjs.umd.min.js"></script>
 
 
- <script src="script.js" type="module"></script> 
+  <script src="script.js" type="module"></script>
 </head>
-<body class="bg-slate-500">
-  <h1 class="text-3xl font-bold underline  ">
-    Hello world!
-  </h1>
+
+<body>
+
+  <div id="header">
+
+    <p class="text-3xl font-bold text-white">degisik.net</p>
+    <div id="countContainer">
+      <i class="fa-solid fa-cart-shopping"></i>
+      <p id="count">0</p>
+    </div>
+
+  </div>
+
+
+
+  <div id="mainContainer">
+
+    <div id="cardContainer">
+
+      <div class="card">
+
+        <img class="w-full h-full object-cover" src="./images/photo-banana.avif">
+
+        <div class="p-5 flex-col gap-3">
+
+          <div class="badgeContainer" >
+            <span class="badge">Properties-1 </span>
+            <span class="badge">Properties-2 </span>
+
+          </div>
+
+          <h2 class="product-title" title="Banana">
+            Banana
+          </h2>
+
+          <div>
+            <span class="text-xl font-bold">
+              Rp 400.000
+            </span>
+
+            <div class="flex items-center gap-2 mt-1">
+              <span class="text-sm line-through opacity-50">
+                Rp 500.000
+              </span>
+              <span class="discount-percent">
+                save 20%
+              </span>
+            </div>
+
+            <span>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star"></i>
+              <i class="fa-solid fa-star-half-stroke"></i>
+              <i class="fa-regular fa-star"></i>
+              <span class="text-xs ml-2 text-gray-500">
+                20k reviews
+              </span>
+
+            </span>
+
+            <div class="mt-5 flex gap-2">
+              <button class="button-primary">
+                Add to cart
+              </button>
+
+              <button class="button-icon">
+                <i class="fa-solid fa-heart opacity-50"></i>
+              </button>
+
+              <button class="button-icon">
+                <i class="fa-solid fa-eye"></i>
+              </button>
+
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <div id="selectedCardContainer" class=" hidden flex-col w-[30%] h-[100%] p-4
+        rounded-md bg-[#eee] text-center absolute right-[10%] bottom-0 top-[120px]
+          ">
+      <div class="head bg-yellow-500 rounded-sm h-10 p-3 mb-5 flex items-center justify-between
+            grow-0" style="color: white;">
+        <p>My Cart</p>
+
+        <form id="findForm" method="POST">
+          <input type="text" name="valueForm" class="text-black " id="valueForm" placeholder="Enter a card name">
+          <button type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+
+        <i class="fa-solid fa-filter-circle-xmark" style="color : black;"></i>
+
+        <i id="delAllItem" class='fa-solid fa-trash ' style="color : black;"></i>
+      </div>
+      <div class="foot flex justify-between my-5 py-5 border-y-2 border-solid border-[#333]  grow-0">
+        <h3>Total</h3>
+        <h2 id="total">₺ 0.00</h2>
+      </div>
+      <div id="cartItem" class=" grow overflow-y-auto">Your cart is empty</div>
+
+    </div>
+
+
+  </div>
+
 </body>
+
 </html>
