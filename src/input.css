@@ -12,9 +12,6 @@
 };
 
 @layer components {
-    .card {
-        @apply bg-white text-gray-700 w-72 min-h-[10rem] shadow-lg rounded-md overflow-hidden mr-5 mb-5
-    };
 
     #header {
         @apply
@@ -42,6 +39,14 @@
         @apply bg-white text-gray-700 w-72 min-h-[10rem] shadow-lg rounded-md overflow-hidden mr-5 mb-5
     };
 
+    .image {
+        @apply w-full h-full object-cover
+    }
+
+    .propertiesContainer {
+        @apply p-5 flex flex-col gap-3
+    }
+
     .badgeContainer {
         @apply flex items-center gap-2 flex-nowrap whitespace-nowrap
     };
@@ -51,8 +56,47 @@
     };
 
     .product-title {
-        @apply font-semibold text-2xl overflow-ellipsis overflow-hidden whitespace-nowrap
+        @apply 
+        line-clamp-2  font-semibold text-xl whitespace-normal   
+        
     };
 
+    .discountedPrice {
+        @apply 
+        text-xl font-bold   
+        
+    };
+
+    .priceContainer {
+        @apply 
+        flex items-center gap-2 mt-1  
+        
+    };
+
+    .price {
+        @apply 
+        text-sm line-through opacity-50
+        
+    };
+
+    .discount-percent {
+        @apply bg-green-400 px-1.5 py-0.5 rounded-md text-xs text-white
+    };
+
+    .countReviews {
+        @apply text-xs ml-2 text-gray-500
+    };
+
+    .buttonContainer{
+        @apply mt-5 flex gap-2
+    }
+
+    .button-primary {
+        @apply bg-yellow-500/80  hover:bg-yellow-500/90 px-6 py-2 rounded-md text-white font-medium tracking-wider transition
+    };
+
+    .button-icon {
+        @apply flex-grow flex justify-center items-center bg-gray-300 hover:bg-gray-300/80 rounded-md transition
+    };
 
 }
