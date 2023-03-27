@@ -629,7 +629,6 @@ body {
 
 #cardContainer {
   display: flex;
-  width: 100%;
   flex-wrap: wrap;
   align-items: center;
   justify-content: center;
@@ -786,6 +785,45 @@ body {
   background-color: rgb(209 213 219 / 0.8);
 }
 
+.cart-item{
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 0.25rem;
+  border-width: 1px;
+  border-bottom-width: 2px;
+  border-style: solid;
+  --tw-border-opacity: 1;
+  border-color: rgb(51 51 51 / var(--tw-border-opacity));
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+  padding: 10px;
+}
+
+.row-img{
+  display: flex;
+  height: 3.5rem;
+  width: 3.5rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 56px;
+  border-style: solid;
+  --tw-border-opacity: 1;
+  border-color: rgb(234 179 8 / var(--tw-border-opacity));
+}
+
+.rowimg{
+  max-height: 43px;
+  max-width: 43px;
+  border-radius: 50%;
+}
+
+.fa-trash:hover{
+  cursor: pointer;
+  color: #333;
+}
+
 .invisible {
   visibility: hidden;
 }
@@ -837,6 +875,14 @@ body {
 
 .w-\[30\%\] {
   width: 30%;
+}
+
+.w-\[65\%\]{
+  width: 65%;
+}
+
+.w-\[100\%\]{
+  width: 100%;
 }
 
 .grow {
@@ -893,6 +939,10 @@ body {
 .bg-yellow-500 {
   --tw-bg-opacity: 1;
   background-color: rgb(234 179 8 / var(--tw-bg-opacity));
+}
+
+.p-1 {
+  padding: 0.25rem;
 }
 
 .p-3 {

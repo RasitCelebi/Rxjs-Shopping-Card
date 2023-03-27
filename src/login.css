@@ -30,6 +30,20 @@ span{
     justify-content: center;
     padding: 10px 0 10px 0;
 }
+
+#turnHomePage{
+    color: #fff;
+    font-size:medium;
+    display: flex;
+    justify-content: center;
+    padding: 10px 0 10px 0;
+}
+#turnHomePage:hover{
+    box-shadow: 1px 5px 7px 1px rgba(202, 26, 26, 0.2);
+    background-color: rgb(208, 236, 48);
+    border-radius: 10px;
+}
+
 header{
     color: #fff;
     font-size: 30px;
