@@ -21,37 +21,4 @@ async function loginUser() {
     window.location.href = "index.html";
   }
 
-
-  /* signInWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-
-      const credential = EmailAuthProvider.credential(email, password);
-
-      console.log(credential._email);
-      alert("Logged in succesfully");
-
-
-      /* let lgDate = new Date();
-
-      set(ref(database, 'users/' + user.uid), {
-        last_login: lgDate,
-      }).then(() => {
-        // Data saved successfully!
-        alert("Logged in succesfully");
-      })
-        .catch((error) => {
-          // The write failed...
-          alert(error);
-        });
-      // ... */
-    /* })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      alert(errorMessage);
-    }); */ 
-
-
-
 }

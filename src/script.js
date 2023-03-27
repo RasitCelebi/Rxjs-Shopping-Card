@@ -3,10 +3,14 @@ import { authStateFB, signOutUserFB } from "./fbase.js";
 const { range, filter, map } = rxjs;
 
 let cardContainerr;
+let addCartButton, selectedItemCount, countContainer, selectedCardContainer, cardContainer,
+    delAllItem, findForm, valueForm, filtreContainer, filtreIcon, parentCartElement, signIn, register, logOut,
+    cart, filteredItems, user;
+
+
+
 
 document.addEventListener("DOMContentLoaded", onCreated());
-
-
 
 function onCreated() {
 
@@ -14,310 +18,15 @@ function onCreated() {
 
   if (cardContainerr) {
     elementBuilder();
-    let addCartButton = document.querySelectorAll(".buttonContainer");
-    let selectedItemCount = document.querySelector("#selectedItemCount");
-    let countContainer = document.querySelector("#countContainer");
-    let selectedCardContainer = document.querySelector("#selectedCardContainer");
-    let cardContainer = document.querySelector("#cardContainer");
-    let delAllItem = document.querySelector("#delAllItem");
-    let findForm = document.querySelector("#findForm");
-    let valueForm = document.querySelector("#valueForm");
-    let filtreContainer = document.querySelector("#filtreContainer");
-    let filtreIcon = document.querySelector("#filtreIcon");
-    let numberOfSelectedItem = 0, i = 0;
-    let parentCartElement = document.querySelector("#cartItem");
-    let loginText = document.querySelector("#loginText");
-    let logOut = document.querySelector("#logOut");
-    let cart = [], filteredItems = [];
-
-    let user ;
-    async function auth() {
-
-      const result = await authStateFB();
-      console.log(result);
-      user = result;
-
-    }
-
+    init();
     auth();
 
     countContainer.addEventListener("click", toggleShoppingCard);
     delAllItem.addEventListener("click", delAllElement);
     findForm.addEventListener("submit", searchCart);
     filtreContainer.addEventListener("click", deleteFilter);
-    //loginText.addEventListener("click", loginTextFunction);
+    signIn.addEventListener("click", loginTextFunction);
     logOut.addEventListener("click", logOutFunc);
-
-    async function logOutFunc(){
-
-      event.preventDefault();
-
-      const message = await signOutUserFB();
-
-      console.log(message);
-    };
-
-    function toggleShoppingCard() {
-      selectedCardContainer.classList.toggle('hidden');
-      selectedCardContainer.classList.toggle('flex');
-      cardContainer.classList.toggle('w-[100%]');
-      cardContainer.classList.toggle('w-[65%]');
-    };
-
-    addCartButton.forEach((btn, index) => {
-      btn.addEventListener("click", function () {
-
-        if (filteredItems.length > 0) {
-          alert("End the filtering process. then add to cart.")
-        } else {
-          addtocart(index);
-        }
-      });
-    });
-
-    function addtocart(index) {
-      //numberOfSelectedItem++;
-      //selectedItemCount.textContent = numberOfSelectedItem;
-      cart.unshift({ ...products[index] });
-      displaycart("noFilter");
-
-      filtreIcon.innerHTML = 0;
-      filtreContainer.style.color = "white";
-      valueForm.value = "";
-
-    }
-
-    function deleteFilter() {
-
-      filtreIcon.innerHTML = 0;
-      filtreContainer.style.color = "white";
-      valueForm.value = "";
-
-      displaycart("noFilter");
-      filteredItems = [];
-      console.log(filteredItems.length);
-
-    }
-
-    function delAllElement() {
-
-      if (filteredItems.length > 0) {
-
-        alert("End the filtering process. Then delete all cards.")
-
-      } else {
-
-        let selectedItemLength = cart.length;
-
-        if (selectedItemLength > 0) {
-          cart.splice(0, selectedItemLength);
-          displaycart("noFilter");
-          filtreContainer.style.color = "white";
-          filtreIcon.innerHTML = 0;
-
-        } else {
-          alert("Your shopping cart is empty")
-        }
-
-      }
-
-
-
-
-
-    }
-
-    function displaycart(type) {
-      let index = 0, total = 0;
-
-      if (type === "noFilter") {
-        document.getElementById("selectedItemCount").innerHTML = cart.length;
-        if (cart.length == 0) {
-          document.getElementById('cartItem').innerHTML = "Your cart is empty";
-          document.getElementById("total").innerHTML = "₺ " + 0 + ".00";
-        }
-        else {
-          parentCartElement.textContent = "";
-
-          cart.map((items) => {
-            let { image, title, price } = items;
-            total = total + price;
-
-            selectedCardBuilder(image, title, price, index);
-
-          });
-
-          let deleteCartButton = document.querySelectorAll(".deleteItem");
-          deleteCartButton.forEach((btn, index) => {
-            btn.addEventListener("click", function () {
-
-              delElement(index);
-            });
-
-          });
-
-        }
-      } else {
-
-        document.getElementById("selectedItemCount").innerHTML = cart.length;
-        filtreIcon.innerHTML = filteredItems.length;
-        if (filteredItems.length == 0) {
-          document.getElementById('cartItem').innerHTML = "All cards containing the words you searched for have been removed.";
-          document.getElementById("total").innerHTML = "₺ " + 0 + ".00";
-        }
-        else {
-
-          parentCartElement.textContent = "";
-
-          filteredItems.map((items) => {
-            let { image, title, price } = items;
-            total = total + price;
-            console.log("total : " + total);
-            selectedCardBuilder(image, title, price, index);
-          });
-
-        }
-
-      }
-
-      document.getElementById("total").textContent = "₺ " + total + ".00";
-
-
-    }
-
-    function selectedCardBuilder(image, title, price, index) {
-
-      let classAttrCardItem = document.createAttribute('class');
-      let classAttrRowImg = document.createAttribute('class');
-      let classAttrRowImgChild = document.createAttribute('class');
-      let classAttrIcon = document.createAttribute('class');
-
-      let srcAttrRowImgChild = document.createAttribute('src');
-
-      let styleAttrP = document.createAttribute('style');
-      let styleAttrH2 = document.createAttribute('style');
-
-      let onClickAttrIcon = document.createAttribute('onclick');
-
-      let newDivElementCardItem = document.createElement('div');
-      let newDivElementRowImg = document.createElement('div');
-
-      let newImgElement = document.createElement('img');
-      let newPElement = document.createElement('p');
-      let newH2Element = document.createElement('h2');
-      let newIElementRowImg = document.createElement('i');
-
-      classAttrCardItem.value = "cart-item";
-      classAttrRowImg.value = "row-img";
-      classAttrRowImgChild.value = "rowimg";
-      classAttrIcon.value = "fa-solid fa-trash deleteItem";
-
-      srcAttrRowImgChild.value = image;
-
-      styleAttrP.value = "font-size: 12px;";
-      styleAttrH2.value = "font-size: 15px;";
-
-      onClickAttrIcon.value = "delElement(" + (index++) + ")";
-
-      newDivElementCardItem.setAttributeNode(classAttrCardItem);
-      newDivElementRowImg.setAttributeNode(classAttrRowImg);
-      newImgElement.setAttributeNode(classAttrRowImgChild);
-      newImgElement.setAttributeNode(srcAttrRowImgChild);
-      newDivElementCardItem.setAttributeNode(classAttrCardItem);
-
-      newPElement.setAttributeNode(styleAttrP);
-      newH2Element.setAttributeNode(styleAttrH2);
-      newIElementRowImg.setAttributeNode(onClickAttrIcon);
-      newIElementRowImg.setAttributeNode(classAttrIcon);
-      newPElement.textContent = title;
-      newH2Element.textContent = "₺ " + price + ".00";
-
-
-      // #control#
-      newDivElementRowImg.appendChild(newImgElement);
-
-      newDivElementCardItem.appendChild(newDivElementRowImg);
-      newDivElementCardItem.appendChild(newPElement);
-      newDivElementCardItem.appendChild(newH2Element);
-      newDivElementCardItem.appendChild(newIElementRowImg);
-
-      parentCartElement.appendChild(newDivElementCardItem);
-    }
-
-    function searchCart(event) {
-
-      event.preventDefault();
-      filtreIcon.innerHTML = 0;
-      filtreContainer.style.color = "white";
-
-      if (cart.length > 0) { // değili yazıldı.
-
-        let soughtValue = valueForm.value;
-
-        filteredItems = [];
-
-        if (soughtValue.trim().length > 0) { // değili yazıldı.
-
-
-          filteredItems = cart.filter(filterCallback);
-          console.log(filteredItems);
-
-
-          console.log("uzunluk : " + filteredItems.length);
-
-          if (filteredItems.length < 1) { // değili yazıldı.
-
-            //valueForm.value = "";
-            parentCartElement.textContent = "There is no such item in the cart.";
-            document.getElementById("total").innerHTML = "₺ " + 0 + ".00";
-            filtreContainer.style.color = "red";
-            console.log(filtreContainer.getAttribute("style"));
-
-
-          } else {
-            console.log("buraya girdi");
-            displaycart();
-          };
-
-        } else {
-          alert("Just searching for spaces doesn't make sense . Write a word.");
-          valueForm.value = "";
-        }
-
-      } else {
-        alert("Add data to cart first");
-        valueForm.value = "";
-      }
-
-    }
-
-    function filterCallback(item) {
-
-      console.log(item.title + " ve " + valueForm.value.toUpperCase());
-
-      return item.title.toUpperCase().includes(valueForm.value.toUpperCase());
-
-    }
-
-    function delElement(a, type) {
-
-      if (filteredItems.length > 0) {
-
-        alert("End the filtering process. Then delete all cards.")
-
-      } else {
-
-        let selectedItemLength = cart.length;
-
-        cart.splice(a, 1);
-        displaycart("noFilter");
-
-      }
-
-
-
-    }
-
 
   } else {
     console.log("!!!container not found");
@@ -457,4 +166,322 @@ function elementBuilder() {
     elementSpanPrice.textContent = "₺ " + (price * 1.25) + ".00";
 
   });
+}
+
+function init() {
+  addCartButton = document.querySelectorAll(".buttonContainer");
+  selectedItemCount = document.querySelector("#selectedItemCount");
+  countContainer = document.querySelector("#countContainer");
+  selectedCardContainer = document.querySelector("#selectedCardContainer");
+  cardContainer = document.querySelector("#cardContainer");
+  delAllItem = document.querySelector("#delAllItem");
+  findForm = document.querySelector("#findForm");
+  valueForm = document.querySelector("#valueForm");
+  filtreContainer = document.querySelector("#filtreContainer");
+  filtreIcon = document.querySelector("#filtreIcon");
+  parentCartElement = document.querySelector("#cartItem");
+  signIn = document.querySelector("#signIn");
+  register = document.querySelector("#register");
+  logOut = document.querySelector("#logOut");
+  cart = [];
+  filteredItems = [];
+}
+
+async function auth() {
+
+  const result = await authStateFB();
+  user = result;
+
+  if (user == null) {
+    signIn.href = "login.html"
+  } else {
+    toggleLogOutButton();
+    signIn.textContent = user.email;
+    signIn.href = "#"
+  }
+
+}
+
+async function logOutFunc() {
+
+  event.preventDefault();
+  const message = await signOutUserFB();
+
+  alert("Account " + message[1] + " logged out.");
+
+  toggleLogOutButton();
+  signIn.textContent = "Sign In";
+  user = null;
+  signIn.href = "login.html"
+
+};
+
+function toggleLogOutButton() {
+  logOut.classList.toggle('hidden');
+  logOut.classList.toggle('flex');
+
+  register.classList.toggle('hidden');
+  register.classList.toggle('flex');
+}
+
+function loginTextFunction() {
+
+  if (user !== null) {
+    alert("Account mail : " + user.email);
+  }
+
+}
+
+function toggleShoppingCard() {
+  selectedCardContainer.classList.toggle('hidden');
+  selectedCardContainer.classList.toggle('flex');
+  cardContainer.classList.toggle('w-[100%]');
+  cardContainer.classList.toggle('w-[65%]');
+};
+
+addCartButton.forEach((btn, index) => {
+  btn.addEventListener("click", function () {
+
+    if (filteredItems.length > 0) {
+      alert("End the filtering process. then add to cart.")
+    } else {
+      addtocart(index);
+    }
+  });
+});
+
+function addtocart(index) {
+  cart.unshift({ ...products[index] });
+  displaycart("noFilter");
+
+  filtreIcon.innerHTML = 0;
+  filtreContainer.style.color = "white";
+  valueForm.value = "";
+
+}
+
+function displaycart(type) {
+  let index = 0, total = 0;
+
+  if (type === "noFilter") {
+    document.getElementById("selectedItemCount").innerHTML = cart.length;
+    if (cart.length == 0) {
+      document.getElementById('cartItem').innerHTML = "Your cart is empty";
+      document.getElementById("total").innerHTML = "₺ " + 0 + ".00";
+    }
+    else {
+      parentCartElement.textContent = "";
+
+      cart.map((items) => {
+        let { image, title, price } = items;
+        total = total + price;
+
+        selectedCardBuilder(image, title, price, index);
+
+      });
+
+      let deleteCartButton = document.querySelectorAll(".deleteItem");
+      deleteCartButton.forEach((btn, index) => {
+        btn.addEventListener("click", function () {
+
+          delElement(index);
+        });
+
+      });
+
+    }
+  } else {
+
+    document.getElementById("selectedItemCount").innerHTML = cart.length;
+    filtreIcon.innerHTML = filteredItems.length;
+    if (filteredItems.length == 0) {
+      document.getElementById('cartItem').innerHTML = "All cards containing the words you searched for have been removed.";
+      document.getElementById("total").innerHTML = "₺ " + 0 + ".00";
+    }
+    else {
+
+      parentCartElement.textContent = "";
+
+      filteredItems.map((items) => {
+        let { image, title, price } = items;
+        total = total + price;
+        console.log("total : " + total);
+        selectedCardBuilder(image, title, price, index);
+      });
+
+    }
+
+  }
+
+  document.getElementById("total").textContent = "₺ " + total + ".00";
+
+}
+
+function selectedCardBuilder(image, title, price, index) {
+
+  let classAttrCardItem = document.createAttribute('class');
+  let classAttrRowImg = document.createAttribute('class');
+  let classAttrRowImgChild = document.createAttribute('class');
+  let classAttrIcon = document.createAttribute('class');
+
+  let srcAttrRowImgChild = document.createAttribute('src');
+
+  let styleAttrP = document.createAttribute('style');
+  let styleAttrH2 = document.createAttribute('style');
+
+  let onClickAttrIcon = document.createAttribute('onclick');
+
+  let newDivElementCardItem = document.createElement('div');
+  let newDivElementRowImg = document.createElement('div');
+
+  let newImgElement = document.createElement('img');
+  let newPElement = document.createElement('p');
+  let newH2Element = document.createElement('h2');
+  let newIElementRowImg = document.createElement('i');
+
+  classAttrCardItem.value = "cart-item";
+  classAttrRowImg.value = "row-img";
+  classAttrRowImgChild.value = "rowimg";
+  classAttrIcon.value = "fa-solid fa-trash deleteItem";
+
+  srcAttrRowImgChild.value = image;
+
+  styleAttrP.value = "font-size: 12px;";
+  styleAttrH2.value = "font-size: 15px;";
+
+  onClickAttrIcon.value = "delElement(" + (index++) + ")";
+
+  newDivElementCardItem.setAttributeNode(classAttrCardItem);
+  newDivElementRowImg.setAttributeNode(classAttrRowImg);
+  newImgElement.setAttributeNode(classAttrRowImgChild);
+  newImgElement.setAttributeNode(srcAttrRowImgChild);
+  newDivElementCardItem.setAttributeNode(classAttrCardItem);
+
+  newPElement.setAttributeNode(styleAttrP);
+  newH2Element.setAttributeNode(styleAttrH2);
+  newIElementRowImg.setAttributeNode(onClickAttrIcon);
+  newIElementRowImg.setAttributeNode(classAttrIcon);
+  newPElement.textContent = title;
+  newH2Element.textContent = "₺ " + price + ".00";
+
+
+  // #control#
+  newDivElementRowImg.appendChild(newImgElement);
+
+  newDivElementCardItem.appendChild(newDivElementRowImg);
+  newDivElementCardItem.appendChild(newPElement);
+  newDivElementCardItem.appendChild(newH2Element);
+  newDivElementCardItem.appendChild(newIElementRowImg);
+
+  parentCartElement.appendChild(newDivElementCardItem);
+}
+
+function deleteFilter() {
+
+  filtreIcon.innerHTML = 0;
+  filtreContainer.style.color = "white";
+  valueForm.value = "";
+
+  displaycart("noFilter");
+  filteredItems = [];
+
+}
+
+function searchCart(event) {
+
+  event.preventDefault();
+  filtreIcon.innerHTML = 0;
+  filtreContainer.style.color = "white";
+
+  if (cart.length > 0) { 
+
+    let soughtValue = valueForm.value;
+
+    filteredItems = [];
+
+    if (soughtValue.trim().length > 0) { 
+
+
+      filteredItems = cart.filter(filterCallback);
+      console.log(filteredItems);
+
+
+      console.log("uzunluk : " + filteredItems.length);
+
+      if (filteredItems.length < 1) { 
+
+        parentCartElement.textContent = "There is no such item in the cart.";
+        document.getElementById("total").innerHTML = "₺ " + 0 + ".00";
+        filtreContainer.style.color = "red";
+        console.log(filtreContainer.getAttribute("style"));
+
+
+      } else {
+        console.log("buraya girdi");
+        displaycart();
+      };
+
+    } else {
+      alert("Just searching for spaces doesn't make sense . Write a word.");
+      valueForm.value = "";
+    }
+
+  } else {
+    alert("Add data to cart first");
+    valueForm.value = "";
+  }
+
+}
+
+function filterCallback(item) {
+
+  console.log(item.title + " ve " + valueForm.value.toUpperCase());
+
+  return item.title.toUpperCase().includes(valueForm.value.toUpperCase());
+
+}
+
+function delElement(a, type) {
+
+  if (filteredItems.length > 0) {
+
+    alert("End the filtering process. Then delete all cards.")
+
+  } else {
+
+    let selectedItemLength = cart.length;
+
+    cart.splice(a, 1);
+    displaycart("noFilter");
+
+  }
+
+}
+
+function delAllElement() {
+
+  if (filteredItems.length > 0) {
+
+    alert("End the filtering process. Then delete all cards.")
+
+  } else {
+
+    let selectedItemLength = cart.length;
+
+    if (selectedItemLength > 0) {
+      cart.splice(0, selectedItemLength);
+      displaycart("noFilter");
+      filtreContainer.style.color = "white";
+      filtreIcon.innerHTML = 0;
+
+    } else {
+      alert("Your shopping cart is empty")
+    }
+
+  }
+
+
+
+
+
 }

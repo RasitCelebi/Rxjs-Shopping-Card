@@ -1,6 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-app.js";
-import { getAuth, signOut, EmailAuthProvider, onAuthStateChanged, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js";
-import { getDatabase, ref, set, update } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-database.js";
+import { getAuth, signOut, onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-auth.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.18.0/firebase-database.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyDSPNBCX71YzK9Sa_I_bc7YEbkak2ckSx4",
@@ -17,8 +17,40 @@ const database = getDatabase();
 
 let message = "default";
 let userMail = "error";
+let userGlobal;
+
+export async function createUserFB(email, password) {
+
+    createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+
+            const user = userCredential.user;
+            set(ref(database, 'users/' + user.uid), {
+                email: email,
+                password: password
+
+            }).then(() => {
+                message = "successful";
+                userMail = user.email;
+
+            }).catch((error) => {
+                alert(error);
+            });
 
 
+        }).catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            alert(errorMessage);
+        });
+
+    return new Promise(resolve => {
+        setTimeout(() => {
+            resolve([message, userMail]);
+        }, 3000);
+    });
+
+}
 
 export async function loginUserFB(email, password) {
 
@@ -50,7 +82,10 @@ export async function signOutUserFB() {
 
     let message = "";
 
+    let mail = (auth.currentUser.email);
+
     signOut(auth).then(() => {
+        console.log(auth);
         message = "Sign-out successful." + auth.userMail;
     }).catch((error) => {
         message = "bir hata var";
@@ -58,7 +93,7 @@ export async function signOutUserFB() {
 
     return new Promise(resolve => {
         setTimeout(() => {
-            resolve(message);
+            resolve([message, mail]);
         }, 1500);
     });
 
@@ -66,21 +101,17 @@ export async function signOutUserFB() {
 
 export async function authStateFB() {
 
-    let userGlobal ;
+    let userGlobal;
 
     onAuthStateChanged(auth, (user) => {
-
         userGlobal = user;
-        
         if (user) {
-
             console.log(user.uid + " and email : " + user.email);
-
         } else {
-            console.log("User is signed out");
-            console.log(user)
+            console.log("No user logged in");
         }
     });
+
 
     return new Promise(resolve => {
         setTimeout(() => {
