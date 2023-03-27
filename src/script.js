@@ -45,7 +45,7 @@ function onCreated() {
     delAllItem.addEventListener("click", delAllElement);
     findForm.addEventListener("submit", searchCart);
     filtreContainer.addEventListener("click", deleteFilter);
-    loginText.addEventListener("click", loginTextFunction);
+    //loginText.addEventListener("click", loginTextFunction);
     logOut.addEventListener("click", logOutFunc);
 
     async function logOutFunc(){
